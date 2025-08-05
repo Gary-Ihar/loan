@@ -6,7 +6,7 @@
   "homepage": "https://Gary-Ihar.github.io/loan",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "build": "rsbuild build",
     "dev": "rsbuild dev --open",
     "format": "prettier --write .",
