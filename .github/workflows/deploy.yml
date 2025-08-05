@@ -8,9 +8,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Даёт доступ на запись в репозиторий
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -20,11 +22,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build and Deploy
+      - name: Build
+        run: npm run build
+
+      - name: Configure Git
         run: |
-          npm run build
-          git config --local user.email "github-actions@github.com"
-          git config --local user.name "GitHub Actions"
-          npm run deploy
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Deploy
+        run: npm run deploy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
