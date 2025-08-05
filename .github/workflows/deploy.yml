@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0 # Получаем полную историю коммитов
           persist-credentials: true
 
       - name: Setup Node.js
@@ -27,10 +28,12 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
-      - name: Deploy
-        run: npm run deploy
+      - name: Deploy to gh-pages
+        run: |
+          npx gh-pages --dist dist --repo https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
