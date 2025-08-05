@@ -7,4 +7,7 @@ export default defineConfig({
     favicon: './static/favicon.ico',
     title: 'Loan Calc',
   },
+  output: {
+    assetPrefix: '/loan/',
+  },
 });
